@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import Button from '../UI/Button';
+// import Button from '../UI/Button';
 import AUTHOR from '../../constants';
+import PropTypes from 'prop-types';
+import IButton from '@mui/material/Button';
+import ITextField from '@mui/material/TextField';
 
 function Form({ addMessage }) {
   const [text, setText] = useState('');
@@ -11,7 +14,7 @@ function Form({ addMessage }) {
       author: AUTHOR.user,
       text: text
     })
-    
+
     setText('')
   }
 
@@ -19,15 +22,32 @@ function Form({ addMessage }) {
     <>
       <h1>Form</h1>
       <form onSubmit={handleSubmit}>
-        <input
+        {/* <input
           type='text'
           value={text}
           onChange={(event) => setText(event.target.value)}
+        /> */}
+        <ITextField
+          id="standard-basic"
+          label="Enter message"
+          variant="standard"
+          onChange={(event) => setText(event.target.value)}
+          type='text'
+          value={text}
         />
-        <Button type='submit'>Send message from Form</Button>
+        {/* <Button type='submit'>Send message from Form</Button> */}
+        <IButton
+          variant="contained"
+          color="success"
+          size="large"
+          type='submit'
+        >Add message</IButton>
       </form>
     </>
   )
+}
+Form.propTypes = {
+  addMessage: PropTypes.func
 }
 
 export default Form;
