@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 function MessageList({ messages }) {
 
@@ -12,6 +13,10 @@ function MessageList({ messages }) {
       </ul>
     </>
   )
+}
+
+MessageList.propTypes = {
+  messages: PropTypes.array
 }
 
 export default MessageList;

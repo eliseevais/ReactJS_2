@@ -30,7 +30,12 @@ function App() {
   return (
     <>
       <h1>
-        Homework with arrays
+        <div>
+          Homework lesson_03
+        </div>
+        <div>
+          Welcome to chat
+        </div>
       </h1>
       <Form addMessage={addMessage} />
       <MessageList messages={messages} />
