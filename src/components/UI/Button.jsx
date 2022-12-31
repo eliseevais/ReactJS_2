@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 
-function Button(props) {
+const Button = (props) => {
   return (
     <>
       <button {...props}>{props.children}</button>
@@ -10,7 +10,7 @@ function Button(props) {
   )
 }
 
-Button.propTypes = { 
+Button.propTypes = {
   type: PropTypes.string
 }
 

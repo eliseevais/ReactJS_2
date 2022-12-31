@@ -1,0 +1,10 @@
+.header {
+  background-color: #ccc;
+  padding: 10px;
+}
+
+.header ul {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}

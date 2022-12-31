@@ -1,53 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import Form from './components/Form/Form';
-import MessageList from './components/MessageList/MessageList';
-import AUTHOR from './constants';
+import React, { useState } from "react";
+import { Routes, Route } from 'react-router-dom';
+import Header from "./components/Header/Header";
+import MainPage from "./pages/MainPage";
+import ProfilePage from "./pages/ProfilePage";
+import ChatsPage from "./pages/ChatsPage";
+import ChatList from "./components/ChatList/ChatList";
+import { nanoid } from 'nanoid';
 
-function App() {
-  const [messages, setMessages] = useState([]);
+const defaultMessages = {
+  default: [
+    {
+      author: 'user',
+      text: 'one text',
+    },
+    {
+      author: 'user',
+      text: 'two text',
+    }
+  ]
+}
 
-  const addMessage = (newMessage) => {
-    console.log('newMessage', newMessage);
-    setMessages([...messages, newMessage])
+const App = (props) => {
+
+  const [messages, setMessages] = useState(defaultMessages)
+
+  const chats = Object.keys(messages).map((chat) => ({
+    id: nanoid(),
+    name: chat
+  }))
+
+  const onAddChat = (newChat) => {
+    console.log('newChat', newChat);
+    setMessages({
+      ...messages,
+      [newChat.name]: []
+    })
   }
 
-  useEffect(() => {
-    if (messages.length > 0 && messages[messages.length - 1].author === AUTHOR.user) {
-      const timeout = setTimeout(() => {
-        addMessage({
-          author: AUTHOR.bot,
-          text: 'I am bot'
-        })
-      }, 1500)
-
-      return () => {
-        clearTimeout(timeout)
-      }
-    }
-  }, [messages])
+  const onAddMessages = (chatId, newMessage) => {
+    setMessages({
+      ...messages,
+      [chatId]: [...messages[chatId], newMessage]
+    })
+  }
 
   return (
     <>
-      <h1>
-        <div>
-          Homework lesson_03
-        </div>
-        <div>
-          Welcome to chat
-        </div>
-      </h1>
-      <Form addMessage={addMessage} />
-      <MessageList messages={messages} />
-      {/* <ul>
-        {messages.map((item, idx) => (
-          <li key={`${idx}-${item}`}>[from "{item.author}" text: "{item.text}"]</li>
-        ))}
-      </ul>
-      <input />
-      <button>Send message form Form</button> */}
+      {/* <Header /> */}
+      <Routes>
+        <Route path="/" element={<Header />} >
+          <Route index element={<MainPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="chats">
+            <Route index element={<ChatList chats={chats} onAddChat={onAddChat} />} />
+            <Route
+              path=":chatId"
+              element={<ChatsPage chats={chats}
+                messages={messages}
+                onAddMessages={onAddMessages}
+                onAddChat={onAddChat} />}
+            />
+          </Route>
+        </Route>
+
+        <Route path="*" element={<h2>404 Page not found</h2>} />
+      </Routes>
     </>
-  );
+  )
 }
 
 export default App;
