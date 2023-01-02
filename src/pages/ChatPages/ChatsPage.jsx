@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import '../App.css';
-import Form from '../components/Form/Form';
-import MessageList from '../components/MessageList/MessageList';
-import AUTHOR from '../constants';
-import ChatList from '../components/ChatList/ChatList';
+import '../../App.css';
+import Form from '../../components/Form/Form';
+import MessageList from '../../components/MessageList/MessageList';
+import AUTHOR from '../../constants';
+import ChatList from '../../components/ChatList/ChatList';
+import { WithClasses } from '../../HOC/WithClasses';
+import styles from './ChatPage.module.css'
 
 const ChatPage = ({ onAddChat, onAddMessages, messages, chats }) => {
-  // const [messages, setMessages] = useState([]);
   const { chatId } = useParams();
+
+  const MessagesListWithClass = WithClasses(MessageList)
 
   useEffect(() => {
     if (chatId &&
@@ -50,7 +53,11 @@ const ChatPage = ({ onAddChat, onAddMessages, messages, chats }) => {
       </h1>
       <ChatList chats={chats} onAddChat={onAddChat} />
       <Form addMessage={handleAddMessage} />
-      <MessageList messages={chatId ? messages[chatId] : []} />
+      {/* <MessageList messages={chatId ? messages[chatId] : []} /> */}
+      <MessagesListWithClass
+        messages={chatId ? messages[chatId] : []}
+        classes={styles.border}
+      />
     </>
   );
 }

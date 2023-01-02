@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Header.module.css";
 import { Link, Outlet, NavLink } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
 
 const navigate = [
   {
@@ -22,6 +22,8 @@ const navigate = [
 ]
 
 const Header = (props) => {
+  const name = useSelector((store) => store.name)
+
   return (
     <>
       <header>
@@ -29,10 +31,10 @@ const Header = (props) => {
           <ul>
             {navigate.map((link) => (
               <li key={link.id}>
-                <NavLink 
+                <NavLink
                   to={link.to}
                   style={({ isActive }) => ({
-                    color:  isActive ? 'green' : 'blue'
+                    color: isActive ? 'green' : 'blue'
                   })}
                 >
                   {link.name}
@@ -40,6 +42,7 @@ const Header = (props) => {
               </li>
             ))}
           </ul>
+          <p>{name}</p>
         </nav>
       </header>
       <main>
