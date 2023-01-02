@@ -1,20 +1,20 @@
 import React, { useState } from "react";
-import { nanoid } from 'nanoid';
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addChat, deleteChat } from "../../store/messages/actions";
+import { selectChat } from "../../store/messages/selectors";
 
-const ChatList = ({ onAddChat, chats }) => {
+const ChatList = () => {
   const [value, setValue] = useState('');
+  const dispatch = useDispatch();
+  const chats = useSelector(selectChat, 
+    (prev, next) => prev.length === next.length);
 
-  const handleChange = (event) => {
-    setValue(event.target.value)
-  }
+  console.log('update chats', chats)
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onAddChat({
-      id: nanoid(),
-      name: value
-    })
+    dispatch(addChat(value));
   }
 
   return (
@@ -25,6 +25,7 @@ const ChatList = ({ onAddChat, chats }) => {
             <Link to={`/chats/${chat.name}`}>
               {chat.name}
             </Link>
+            <button onClick={() => dispatch(deleteChat(chat.name))}>x</button>
           </li>
         ))}
       </ul>
@@ -34,7 +35,7 @@ const ChatList = ({ onAddChat, chats }) => {
         <input
           type="text"
           value={value}
-          onChange={handleChange}
+          onChange={(event) => setValue(event.target.value)}
         />
         <button type="submit">Create chat</button>
       </form>

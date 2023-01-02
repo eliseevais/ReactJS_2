@@ -8,8 +8,7 @@ import ChatList from "./components/ChatList/ChatList";
 import { nanoid } from 'nanoid';
 import { defaultContext, ThemeContext } from './utils/ThemeContext';
 import { Provider } from "react-redux";
-import store from "./store";
-
+import { store } from "./store";
 
 const defaultMessages = {
   default: [
@@ -29,25 +28,25 @@ const App = (props) => {
   const [messages, setMessages] = useState(defaultMessages)
   const [theme, setTheme] = useState(defaultContext.theme)
 
-  const chats = Object.keys(messages).map((chat) => ({
-    id: nanoid(),
-    name: chat
-  }))
+  // const chats = Object.keys(messages).map((chat) => ({
+  //   id: nanoid(),
+  //   name: chat
+  // }))
 
-  const onAddChat = (newChat) => {
-    console.log('newChat', newChat);
-    setMessages({
-      ...messages,
-      [newChat.name]: []
-    })
-  }
+  // const onAddChat = (newChat) => {
+  //   console.log('newChat', newChat);
+  //   setMessages({
+  //     ...messages,
+  //     [newChat.name]: []
+  //   })
+  // }
 
-  const onAddMessages = (chatId, newMessage) => {
-    setMessages({
-      ...messages,
-      [chatId]: [...messages[chatId], newMessage]
-    })
-  }
+  // const onAddMessages = (chatId, newMessage) => {
+  //   setMessages({
+  //     ...messages,
+  //     [chatId]: [...messages[chatId], newMessage]
+  //   })
+  // }
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
@@ -65,13 +64,10 @@ const App = (props) => {
               <Route index element={<MainPage />} />
               <Route path="profile" element={<ProfilePage />} />
               <Route path="chats">
-                <Route index element={<ChatList chats={chats} onAddChat={onAddChat} />} />
+                <Route index element={<ChatList />} />
                 <Route
                   path=":chatId"
-                  element={<ChatsPage chats={chats}
-                    messages={messages}
-                    onAddMessages={onAddMessages}
-                    onAddChat={onAddChat} />}
+                  element={<ChatsPage messages={messages} />}
                 />
               </Route>
             </Route>

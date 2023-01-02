@@ -3,39 +3,41 @@ import { useParams, Navigate } from 'react-router-dom';
 import '../../App.css';
 import Form from '../../components/Form/Form';
 import MessageList from '../../components/MessageList/MessageList';
-import AUTHOR from '../../constants';
 import ChatList from '../../components/ChatList/ChatList';
 import { WithClasses } from '../../HOC/WithClasses';
-import styles from './ChatPage.module.css'
+import styles from './ChatPage.module.css';
+import { useSelector } from 'react-redux';
+import { selectMessage } from '../../store/messages/selectors';
 
-const ChatPage = ({ onAddChat, onAddMessages, messages, chats }) => {
+const ChatPage = () => {
   const { chatId } = useParams();
+  const messages = useSelector(selectMessage);
 
-  const MessagesListWithClass = WithClasses(MessageList)
+  const MessagesListWithClass = WithClasses(MessageList);
 
-  useEffect(() => {
-    if (chatId &&
-      messages[chatId]?.length > 0 &&
-      messages[chatId][messages[chatId].length - 1].author === AUTHOR.user
-    ) {
-      const timeout = setTimeout(() => {
-        onAddMessages(chatId, {
-          author: AUTHOR.bot,
-          text: 'I am bot'
-        })
-      }, 1500)
+  // useEffect(() => {
+  //   if (chatId &&
+  //     messages[chatId]?.length > 0 &&
+  //     messages[chatId][messages[chatId].length - 1].author === AUTHOR.user
+  //   ) {
+  //     const timeout = setTimeout(() => {
+  //       onAddMessages(chatId, {
+  //         author: AUTHOR.bot,
+  //         text: 'I am bot'
+  //       })
+  //     }, 1500)
 
-      return () => {
-        clearTimeout(timeout)
-      }
-    }
-  }, [chatId, messages])
+  //     return () => {
+  //       clearTimeout(timeout)
+  //     }
+  //   }
+  // }, [chatId, messages])
 
-  const handleAddMessage = (message) => {
-    if (chatId) {
-      onAddMessages(chatId, message)
-    }
-  }
+  // const handleAddMessage = (message) => {
+  //   if (chatId) {
+  //     onAddMessages(chatId, message)
+  //   }
+  // }
 
   if (chatId && !messages[chatId]) {
     return <Navigate to="/chats" replace />
@@ -43,21 +45,13 @@ const ChatPage = ({ onAddChat, onAddMessages, messages, chats }) => {
 
   return (
     <>
-      <h1>
-        <div>
-          Homework lesson_04
-        </div>
-        <div>
-          Welcome to chat
-        </div>
-      </h1>
-      <ChatList chats={chats} onAddChat={onAddChat} />
-      <Form addMessage={handleAddMessage} />
-      {/* <MessageList messages={chatId ? messages[chatId] : []} /> */}
+      <h1>Welcome to chat</h1>
+      <ChatList />
       <MessagesListWithClass
         messages={chatId ? messages[chatId] : []}
         classes={styles.border}
       />
+      <Form />
     </>
   );
 }

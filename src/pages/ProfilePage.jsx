@@ -2,23 +2,21 @@ import React, { useContext, useState } from "react";
 import { ThemeContext } from "../utils/ThemeContext";
 import { useSelector, useDispatch } from 'react-redux';
 import * as types from '../store/profile/types';
-import changeName from '../store/profile/actions'
+import { changeName, toggleProfile } from '../store/profile/actions';
+import { selectName, selectVisible } from "../store/profile/selectors";
 
 const ProfilePage = (props) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const name = useSelector((store) => store.name);
+  const name = useSelector(selectName);
+  const visible = useSelector(selectVisible);
   const [value, setValue] = useState('');
 
   const dispatch = useDispatch();
 
-  // console.log('theme =====>', theme);
-  // console.log('store', name);
-
   const handleChange = () => {
     console.log('value', value);
-    // dispatch({type: types.CHANGE_NAME, payload: value});
     dispatch(changeName(value));
-    setValue()
+    setValue('')
   }
 
   return (
@@ -29,11 +27,17 @@ const ProfilePage = (props) => {
       <hr />
       <h2>{name}</h2>
       <input
+        type="checkbox"
+        checked={visible}
+        readOnly
+      />
+      <button onClick={() => dispatch(toggleProfile())}>Change visible</button>
+      <br />
+      <input
         type="text"
         value={value}
         onChange={(event) => setValue(event.target.value)}
       />
-      {/* <button onClick={handleChange}>Change name</button> */}
       <button onClick={() => dispatch(changeName(value))}>Change name</button>
     </>
   )

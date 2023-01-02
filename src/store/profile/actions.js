@@ -1,6 +1,6 @@
 import * as types from '../profile/types';
 
-const changeName = (data) => {
+export const changeName = (data) => {
   return {
     type: types.CHANGE_NAME, 
     payload: data
@@ -12,4 +12,6 @@ const changeName = (data) => {
 //   payload: data
 // })
 
-export default changeName;
+export const toggleProfile = () => ({
+  type: types.TOGGLE_PROFILE
+})
