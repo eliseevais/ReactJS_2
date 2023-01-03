@@ -15,30 +15,6 @@ const ChatPage = () => {
 
   const MessagesListWithClass = WithClasses(MessageList);
 
-  // useEffect(() => {
-  //   if (chatId &&
-  //     messages[chatId]?.length > 0 &&
-  //     messages[chatId][messages[chatId].length - 1].author === AUTHOR.user
-  //   ) {
-  //     const timeout = setTimeout(() => {
-  //       onAddMessages(chatId, {
-  //         author: AUTHOR.bot,
-  //         text: 'I am bot'
-  //       })
-  //     }, 1500)
-
-  //     return () => {
-  //       clearTimeout(timeout)
-  //     }
-  //   }
-  // }, [chatId, messages])
-
-  // const handleAddMessage = (message) => {
-  //   if (chatId) {
-  //     onAddMessages(chatId, message)
-  //   }
-  // }
-
   if (chatId && !messages[chatId]) {
     return <Navigate to="/chats" replace />
   }

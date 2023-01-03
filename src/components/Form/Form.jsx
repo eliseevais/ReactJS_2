@@ -3,7 +3,7 @@ import Button from '../UI/Button';
 import AUTHOR from '../../constants';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { addMessage } from '../../store/messages/actions';
+import { addMessage, addMessageWithReply } from '../../store/messages/actions';
 import { useParams } from 'react-router-dom';
 // import IButton from '@mui/material/Button';
 // import ITextField from '@mui/material/TextField';
@@ -21,8 +21,10 @@ const Form = () => {
     //   text: text
     // })
 
-    dispatch(addMessage(chatId, text));
-
+    dispatch(addMessageWithReply(chatId, {
+      author: AUTHOR.user,
+      text
+    }));
     setText('')
   }
 
