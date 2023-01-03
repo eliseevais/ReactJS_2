@@ -8,10 +8,13 @@ import { store, persistor } from "./store";
 
 import Header from "./components/Header/Header";
 import MainPage from "./pages/MainPage";
-import ProfilePage from "./pages/ProfilePage";
-import { AboutWithConnect } from "./pages/AboutPage";
 import ChatsPage from "./pages/ChatPages/ChatsPage";
+import ProfilePage from "./pages/ProfilePage";
 import ChatList from "./components/ChatList/ChatList";
+import Articles from './pages/Articles';
+import { AboutWithConnect } from "./pages/AboutPage";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 
 const App = (props) => {
 
@@ -41,7 +44,11 @@ const App = (props) => {
                     element={<ChatsPage />}
                   />
                 </Route>
+                <Route path="articles" element={<Articles />} />
+                <Route path="signIn" element={<SignIn />} />
+                <Route path="signUp" element={<SignUp />} />
               </Route>
+
               <Route path="*" element={<h2>404 Page not found</h2>} />
             </Routes>
           </ThemeContext.Provider>

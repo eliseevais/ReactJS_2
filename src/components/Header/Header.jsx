@@ -23,7 +23,22 @@ const navigate = [
     id: 4,
     name: 'About',
     to: '/about'
-  }
+  },
+  {
+    id: 5,
+    name: 'Articles',
+    to: '/articles'
+  },
+  {
+    id: 6,
+    name: 'SignIn',
+    to: '/signIn'
+  },
+  {
+    id: 7,
+    name: 'SignUp',
+    to: '/signUp'
+  },
 ]
 
 const Header = (props) => {
