@@ -8,6 +8,9 @@ import { useParams } from 'react-router-dom';
 // import IButton from '@mui/material/Button';
 // import ITextField from '@mui/material/TextField';
 
+import { push } from "firebase/database";
+import { getMessageListById } from "../../services/firebase";
+
 const Form = () => {
   const [text, setText] = useState('');
   const dispatch = useDispatch();
@@ -15,16 +18,16 @@ const Form = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //to do...
-    // addMessage({
-    //   author: AUTHOR.user,
-    //   text: text
-    // })
 
     dispatch(addMessageWithReply(chatId, {
       author: AUTHOR.user,
       text
     }));
+
+    push(getMessageListById(chatId), {
+      author: AUTHOR.user,
+      text
+    })
     setText('')
   }
 

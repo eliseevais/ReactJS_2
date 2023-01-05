@@ -5,26 +5,32 @@ import Form from '../../components/Form/Form';
 import MessageList from '../../components/MessageList/MessageList';
 import ChatList from '../../components/ChatList/ChatList';
 import { WithClasses } from '../../HOC/WithClasses';
-import styles from './ChatPage.module.css';
+import styles from './ChatsPage.module.css';
 import { useSelector } from 'react-redux';
 import { selectMessage } from '../../store/messages/selectors';
 
-const ChatPage = () => {
+const ChatsPage = ({ messagesDB, chats }) => {
   const { chatId } = useParams();
-  const messages = useSelector(selectMessage);
 
-  const MessagesListWithClass = WithClasses(MessageList);
+  const MessageListWithClass = WithClasses(MessageList);
 
-  if (chatId && !messages[chatId]) {
-    return <Navigate to="/chats" replace />
-  }
+  console.log('messagesDB', messagesDB)
+
+  const messagesChat = chats.find((chat) => chat?.name === chatId)
+  const messages = Object.entries(messagesChat.messages).map((mes) => ({
+    id: mes[0],
+    text: mes[1].text,
+    author: mes[1].author,
+  }))
+
+  console.log('messages', messagesChat)
 
   return (
     <>
       <h1>Welcome to chat</h1>
-      <ChatList />
-      <MessagesListWithClass
-        messages={chatId ? messages[chatId] : []}
+      <ChatList chats={chats} />
+      <MessageListWithClass
+        messages={chatId ? messages : []}
         classes={styles.border}
       />
       <Form />
@@ -32,4 +38,4 @@ const ChatPage = () => {
   );
 }
 
-export default ChatPage;
+export default ChatsPage;
