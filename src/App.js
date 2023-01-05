@@ -11,7 +11,7 @@ import { onValue } from "firebase/database";
 
 import Header from "./components/Header/Header";
 import MainPage from "./pages/MainPage";
-import ChatsPage from "./pages/ChatPages/ChatsPage";
+import ChatsPage from "./pages/ChatsPages/ChatsPage";
 import ProfilePage from "./pages/ProfilePage";
 import ChatList from "./components/ChatList/ChatList";
 import Articles from './pages/Articles';
@@ -26,8 +26,10 @@ const App = (props) => {
 
   const [theme, setTheme] = useState(defaultContext.theme);
 
-  const [messageDB, setMessageDB] = useState({});
+  const [messagesDB, setMessageDB] = useState({});
   const [chats, setChats] = useState([]);
+
+  // console.log('chats ищу ошибку', chats)
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
@@ -51,13 +53,14 @@ const App = (props) => {
 
       const newChats = Object.entries(data).map((item) => ({
         name: item[0],
-        message: item[1].messageList
+        messages: item[1].messageList
       }));
-
-      console.log('newChats', newChats);
 
       setMessageDB(data);
       setChats(newChats);
+      console.log('newChats', newChats);
+      console.log('messagesDB', messagesDB);
+      
     })
   }, []) 
 
@@ -74,21 +77,14 @@ const App = (props) => {
                 <Route index element={<MainPage />} />
                 <Route path="profile" element={<ProfilePage />} />
                 <Route path="about" element={<AboutWithConnect />} />
-                {/* <Route path="chats">
-                  <Route index element={<ChatList />} />
-                  <Route
-                    path=":chatId"
-                    element={<ChatsPage />}
-                  />
-                </Route> */}
                 <Route path="chats" element={<PrivateRoute />} >
                   <Route
                     index
-                    element={<ChatList chats={chats} messageDB={messageDB} />}
+                    element={<ChatList chats={chats} messagesDB={messagesDB} />}
                   />
                   <Route
                     path=":chatId"
-                    element={<ChatsPage chats={chats} messageDB={messageDB} />}
+                    element={<ChatsPage chats={chats} messagesDB={messagesDB} />}
                   />
                 </Route>
                 <Route path="articles" element={<Articles />} />

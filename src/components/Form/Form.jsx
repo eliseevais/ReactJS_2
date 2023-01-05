@@ -18,11 +18,6 @@ const Form = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //to do...
-    // addMessage({
-    //   author: AUTHOR.user,
-    //   text: text
-    // })
 
     dispatch(addMessageWithReply(chatId, {
       author: AUTHOR.user,

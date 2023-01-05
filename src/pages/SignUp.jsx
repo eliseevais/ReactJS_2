@@ -35,7 +35,7 @@ const SignUp = (props) => {
     <>
       <div>SignUp</div>
       <form onSubmit={handleSubmit}>
-        <p>email: </p>
+        <label>email: </label>
         <input
           type="text"
           name="email"
@@ -43,7 +43,7 @@ const SignUp = (props) => {
           onChange={(event) => setInputs((prev) => (
             { ...prev, [event.target.name]: event.target.value }))}
         />
-        <p>Password: </p>
+        <label>Password: </label>
         <input
           type="text"
           name="password"
