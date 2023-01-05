@@ -1,23 +1,35 @@
 import React, { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import { signIn } from "../services/firebase";
 import { auth } from "../store/profile/actions";
 
 const SignIn = (props) => {
-  const [inputs, setInputs] = useState({ login: '', password: '' });
-  const [error, setErors] = useState('');
+  const [inputs, setInputs] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    if (inputs.login === 'gb' && inputs.password === 'gb') {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError('');
+    setLoading(true)
+    try {
+      await signIn(inputs.email, inputs.password)
       dispatch(auth(true))
-      navigate('/')
-    } else {
-      setErors('Login and password failed')
-      setInputs({login: '', password: '' })
+      navigate('/chats')
+    } catch (error) {
+      console.log('catch', error)
+      setError(error.message)
+      setInputs({ email: '', password: '' })
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -25,10 +37,10 @@ const SignIn = (props) => {
     <>
       <div>SignIn</div>
       <form onSubmit={handleSubmit}>
-        <p>Login: </p>
+        <p>email: </p>
         <input
           type="text"
-          name="login"
+          name="email"
           value={inputs.login}
           onChange={(event) => setInputs((prev) => (
             { ...prev, [event.target.name]: event.target.value }))}
@@ -43,7 +55,12 @@ const SignIn = (props) => {
         />
         <button>login</button>
       </form>
-      {error && <p style={{color: 'red'}}>{error}</p>}
+      {loading && (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      )}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </>
   )
 }
