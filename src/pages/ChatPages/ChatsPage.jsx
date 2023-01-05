@@ -9,11 +9,16 @@ import styles from './ChatPage.module.css';
 import { useSelector } from 'react-redux';
 import { selectMessage } from '../../store/messages/selectors';
 
-const ChatPage = () => {
+const ChatPage = ({ messageDB, chats }) => {
   const { chatId } = useParams();
-  const messages = useSelector(selectMessage);
+  // const messages = useSelector(selectMessage);
 
   const MessagesListWithClass = WithClasses(MessageList);
+
+  const messages = Object.entries(messageDB.find((chat) => 
+    chat.name === chatId).messageList);
+  
+  console.log('messages', messages)
 
   if (chatId && !messages[chatId]) {
     return <Navigate to="/chats" replace />
