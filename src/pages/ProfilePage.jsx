@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "../utils/ThemeContext";
 import { useSelector, useDispatch } from 'react-redux';
-import * as types from '../store/profile/types';
 import { changeName, toggleProfile } from '../store/profile/actions';
 import { selectName, selectVisible } from "../store/profile/selectors";
 
@@ -12,12 +11,6 @@ const ProfilePage = (props) => {
   const [value, setValue] = useState('');
 
   const dispatch = useDispatch();
-
-  const handleChange = () => {
-    console.log('value', value);
-    dispatch(changeName(value));
-    setValue('')
-  }
 
   return (
     <>
